@@ -15,7 +15,14 @@ const Home = () => {
         setTasks([...tasks, { title, description }]);
     }
 
+    const deleteTask = (index) => {
+        const filteredArr = tasks.filter((val, i) =>{ 
+        return i !== index;
+    });
 
+    setTasks(filteredArr);
+
+    };
   return (
     <div className="container">
         <h1>ToDo List</h1>
@@ -27,7 +34,10 @@ const Home = () => {
 
         </form>
     {tasks.map((item,index) => (
-        <Task key={index} title={item.title} description={item.description}/>
+        <Task key={index} title={item.title} description={item.description}
+        deleteTask={deleteTask}
+        index={index}
+        />
     ))}
     </div>
   );
