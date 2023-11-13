@@ -53,6 +53,10 @@ button{
   font-size: 1.2rem;
 }
 
+textarea{
+  max-width: 100%;
+}
+
 button{
   border: none;
   cursor: pointer;
