@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import Task from './Task'
+import Task from '../Components/Task';
 
 
 const Home = () => {
