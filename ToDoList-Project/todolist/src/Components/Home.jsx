@@ -1,18 +1,21 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Task from './Task'
 
 
 const Home = () => {
 
-    const [tasks, setTasks] = useState([]);
+    const initialState = localStorage.getItem("tasks") ? JSON.parse(localStorage.getItem("tasks")) : [];
+
+    const [tasks, setTasks] = useState(initialState);
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
 
 
     const submitHandler = (e) => {
         e.preventDefault();
-     
         setTasks([...tasks, { title, description }]);
+        setTitle("");
+        setDescription("");
     }
 
     const deleteTask = (index) => {
@@ -23,6 +26,14 @@ const Home = () => {
     setTasks(filteredArr);
 
     };
+
+    useEffect(() => {
+        localStorage.setItem("tasks", JSON.stringify(tasks));
+    }, [tasks])
+    
+
+
+
   return (
     <div className="container">
         <h1>ToDo List</h1>
