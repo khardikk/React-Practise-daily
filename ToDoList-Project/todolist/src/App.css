@@ -21,6 +21,24 @@ nav {
 
 }
 
+.header{
+  display: flex;
+  justify-content: space-around;
+  background-color: rgb(18, 223, 223);
+  color: white;
+  padding: 30px;
+  text-decoration: none;
+  text-decoration-color: antiquewhite;
+  box-shadow: 0 0 10px rgb(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.header > a {
+  text-decoration: none;
+  color: #242424;
+  font-size: large;
+}
+
 .container{
 
   background-color: antiquewhite;
@@ -98,6 +116,17 @@ button{
   background-color: red;
 }
 
+.contact{
+  background-color: crimson;
+  width: 100%;
+  height: 100vh;
+}
+
+.about{
+  background-color: gold;
+  width: 100%;
+  height: 100vh;
+}
 
 @media only screen and (max-width: 800px) {
  .container{
