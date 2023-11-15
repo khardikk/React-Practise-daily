@@ -1,0 +1,35 @@
+$bg: rgb(16,16,16);
+
+.banner{
+  background-color: $bg;
+  height: 400px;
+  
+}
+
+.row{
+  
+  background-color: $bg;
+  padding: 1rem;
+ 
+  > h2{
+    margin: 0.5rem;
+    font-weight: 500;
+  }
+
+  > div{
+    display: flex;
+    overflow-x: auto;
+  }
+  
+}
+
+.card{
+  width: 200px;
+  margin: 0.5rem;
+  cursor: pointer;
+
+  &:hover{
+    transform: scale(1.05);
+    transition: transform 0.3s ease-in-out;
+  }
+}
