@@ -7,8 +7,9 @@ const Header = () => {
 
   return (
     <nav className='header'>
-
-      <img src = {logo} alt = "Netflix Logo" />
+      <Link to="/">
+      <img src = {logo}  className="Netflix-logo" alt = "Netflix Logo" />
+      </Link>
 
       <div>
           <Link to="/tvshows">Tv Shows</Link>
