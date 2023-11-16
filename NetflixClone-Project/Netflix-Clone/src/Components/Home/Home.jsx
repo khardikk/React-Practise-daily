@@ -37,95 +37,161 @@ const Row = ({title, arr=[{
     </div>
 )
 
-const Home = () => {
-
-    const [upcomingMovies, setUpcomingMovies] = useState([])
-    const [popularMovies, setPopularMovies] = useState([])
-    const [topRatedMovies, setTopRatedMovies] = useState([])
-    const [nowPlayingMovies, setNowPlayingMovies] = useState([])
-    const [genres, setGenres] = useState([])
-
-
+const Pagination = ({ totalPages, currentPage, onPageChange }) => {
+    const pageNumbers = Array.from({ length: totalPages }, (_, index) => index + 1);
+  
+    return (
+      <div className='pagination-buttons'>
+        {pageNumbers.map((pageNumber) => (
+          <button
+            key={pageNumber}
+            className={pageNumber === currentPage ? 'active' : ''}
+            onClick={() => onPageChange(pageNumber)}
+          >
+            {pageNumber}
+          </button>
+        ))}
+      </div>
+    );
+  };
+  
+  const Home = () => {
+    const [upcomingMovies, setUpcomingMovies] = useState([]);
+    const [popularMovies, setPopularMovies] = useState([]);
+    const [topRatedMovies, setTopRatedMovies] = useState([]);
+    const [nowPlayingMovies, setNowPlayingMovies] = useState([]);
+    const [genres, setGenres] = useState([]);
+    const [upcomingPage, setUpcomingPage] = useState(1);
+    const [nowPlayingPage, setNowPlayingPage] = useState(1);
+    const [popularPage, setPopularPage] = useState(1);
+    const [topRatedPage, setTopRatedPage] = useState(1);
+  
+    const fetchMovies = async (category, setPageFunction, page = 1) => {
+      try {
+        const { data } = await axios.get(
+          `${url}/movie/${category}?api_key=${apiKey}&page=${page}`
+        );
+        setPageFunction(data.results);
+      } catch (error) {
+        console.error(`Error fetching ${category} data:`, error);
+      }
+    };
+  
     useEffect(() => {
-
-        const fetchUpcoming = async () => {
-            const {
-                data:{results},
-            } = await axios.get(`${url}/movie/${upcoming}?api_key=${apiKey}`)
-            setUpcomingMovies(results)
-           
-        };
-       
-        const fetchNowPlaying = async () => {
-            const {
-                data:{results},
-            } = await axios.get(`${url}/movie/${nowPlaying}?api_key=${apiKey}`)
-            setNowPlayingMovies(results)
-           
-        };
-        const fetchPopular = async () => {
-            const {
-                data:{results},
-            } = await axios.get(`${url}/movie/${popular}?api_key=${apiKey}`)
-            setPopularMovies(results)
-           
-        };
-        const fetchTopRated = async () => {
-            const {
-                data:{results},
-            } = await axios.get(`${url}/movie/${topRated}?api_key=${apiKey}`)
-            setTopRatedMovies(results)
-           
-        };
-        const fetchGenres = async () => {
-            const {
-                data:{genres},
-            } = await axios.get(`${url}/genre/movie/list?api_key=${apiKey}`)
-            setGenres(genres)
-           console.log(genres)
-        };
-        
-        fetchUpcoming()
-        fetchNowPlaying()
-        fetchPopular()
-        fetchTopRated()
-        fetchGenres()
-    }
-    ,[]);
-
-  return(
-    <section className = "home">    
-          <div
-                className="banner"
-                style={{
-                    backgroundImage: popularMovies[0]
-                        ? `url(${`${imgURl}/${popularMovies[0].poster_path}`})`
-                        : "rgb(16, 16, 16)",
-                }}
-            >
-                {popularMovies[0] && <h1>{popularMovies[0].original_title}</h1>}
-                {popularMovies[0] && <p>{popularMovies[0].overview}</p>}
-
-                <div>
-                    <button><BiPlay /> Play  </button>
-                    <button>My List <AiOutlinePlus /> </button>
-                </div>
-            </div>
-
-        <Row title={"Upcoming"} arr={upcomingMovies}/>
-        <Row title={"Now Playing"} arr={nowPlayingMovies}/>
-        <Row title={"Popular"} arr={popularMovies}/>
-        <Row title={"Top Rated"} arr={topRatedMovies}/>
-
-        <div className = "genreBox">
-          {genres.map((item)=>(
+      const fetchAllData = async () => {
+        await fetchUpcoming(upcomingPage);
+        await fetchNowPlaying(nowPlayingPage);
+        await fetchPopular(popularPage);
+        await fetchTopRated(topRatedPage);
+        await fetchGenres();
+      };
+  
+      fetchAllData();
+    }, [upcomingPage, nowPlayingPage, popularPage, topRatedPage]);
+  
+    const fetchUpcoming = async (page) => {
+      const {
+        data: { results },
+      } = await axios.get(`${url}/movie/${upcoming}?api_key=${apiKey}&page=${page}`);
+      setUpcomingMovies(results);
+    };
+  
+    const fetchNowPlaying = async (page) => {
+      const {
+        data: { results },
+      } = await axios.get(`${url}/movie/${nowPlaying}?api_key=${apiKey}&page=${page}`);
+      setNowPlayingMovies(results);
+    };
+  
+    const fetchPopular = async (page) => {
+      const {
+        data: { results },
+      } = await axios.get(`${url}/movie/${popular}?api_key=${apiKey}&page=${page}`);
+      setPopularMovies(results);
+    };
+  
+    const fetchTopRated = async (page) => {
+      const {
+        data: { results },
+      } = await axios.get(`${url}/movie/${topRated}?api_key=${apiKey}&page=${page}`);
+      setTopRatedMovies(results);
+    };
+  
+    const fetchGenres = async () => {
+      const {
+        data: { genres },
+      } = await axios.get(`${url}/genre/movie/list?api_key=${apiKey}`);
+      setGenres(genres);
+    };
+  
+    const handlePageChange = (category, newPage) => {
+      switch (category) {
+        case 'upcoming':
+          setUpcomingPage(newPage);
+          break;
+        case 'now_playing':
+          setNowPlayingPage(newPage);
+          break;
+        case 'popular':
+          setPopularPage(newPage);
+          break;
+        case 'top_rated':
+          setTopRatedPage(newPage);
+          break;
+        default:
+          break;
+      }
+    };
+  
+    return (
+      <section className='home'>
+        <div
+          className='banner'
+          style={{
+            backgroundImage: popularMovies[0]
+              ? `url(${`${imgURl}/${popularMovies[0].poster_path}`})`
+              : 'rgb(16, 16, 16)',
+          }}
+        >
+          {popularMovies[0] && <h1>{popularMovies[0].original_title}</h1>}
+          {popularMovies[0] && <p>{popularMovies[0].overview}</p>}
+  
+          <div>
+            <button>
+              <BiPlay /> Play{' '}
+            </button>
+            <button>
+              My List <AiOutlinePlus />{' '}
+            </button>
+          </div>
+        </div>
+  
+        {/* Dynamically generate Row components and Pagination buttons */}
+        {[
+          { title: 'Upcoming', movies: upcomingMovies, page: upcomingPage },
+          { title: 'Now Playing', movies: nowPlayingMovies, page: nowPlayingPage },
+          { title: 'Popular', movies: popularMovies, page: popularPage },
+          { title: 'Top Rated', movies: topRatedMovies, page: topRatedPage },
+        ].map(({ title, movies, page }) => (
+          <React.Fragment key={title}>
+            <Row title={title} arr={movies} />
+            <Pagination
+              totalPages={10} // Replace with the actual total number of pages
+              currentPage={page}
+              onPageChange={(newPage) => handlePageChange(title.toLowerCase().replace(' ', '_'), newPage)}
+            />
+          </React.Fragment>
+        ))}
+  
+        <div className='genreBox'>
+          {genres.map((item) => (
             <Link key={item.id} to={`/genre/${item.id}`}>
-                {item.name}
+              {item.name}
             </Link>
           ))}
         </div>
-    </section>
-  );
-};
-
-export default Home
+      </section>
+    );
+  };
+  
+  export default Home;

@@ -118,7 +118,43 @@ $bg: rgb(16, 16, 16);
     justify-content: center;
     margin: 1rem;
     &:hover {
-      background-color: rgb(236, 236, 236);
+      background-color: rgb(120, 117, 117);
+    }
+  }
+}
+
+
+
+.pagination-buttons {
+  display: flex;
+  gap: 15px;
+  background-color: $bg;
+  padding: 1rem;
+  display: flex;
+  justify-content: center;
+
+  button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px 25px;
+    background-color: #000000;
+    color: #fff;
+    width: 50px;
+    height: 50px;
+    font-size: 1rem;
+
+    border-radius: 100%;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+
+    &:hover {
+      background-color: #2980b9;
+    }
+
+    &.active {
+      background-color: #2980b9;
     }
   }
 }
