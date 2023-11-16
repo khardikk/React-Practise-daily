@@ -36,7 +36,18 @@ $bg: rgb(16, 16, 16);
     word-spacing: 3px;
     font-weight: 100;
   }
-
+  @media (max-width: 768px) {
+    padding: 2rem;
+    h1 {
+      width: 100%;
+      font-size: 4rem;
+    }
+    p{
+      width: 100%;
+      font-size: 1.3rem;
+    
+    }
+  }
   > div {
     display: flex;
 

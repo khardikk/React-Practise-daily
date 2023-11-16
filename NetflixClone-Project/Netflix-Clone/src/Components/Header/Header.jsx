@@ -1,12 +1,18 @@
-import React from 'react'
+import React, {useState} from 'react'
 import logo from '../../Components/NetflixLogo.png'
 import {Link} from 'react-router-dom'
 import { ImSearch } from "react-icons/im";
 
 const Header = () => {
 
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
   return (
-    <nav className='header'>
+    <nav className={`header ${isMenuOpen ? 'menu-open' : ''}`}>
       <Link to="/">
       <img src = {logo}  className="Netflix-logo" alt = "Netflix Logo" />
       </Link>
@@ -18,7 +24,9 @@ const Header = () => {
           <Link to="/mylist">My List</Link>
 
       </div>
-
+      <button onClick={toggleMenu}>Menu
+      
+      </button>
       <ImSearch className = "search-icon" />
 
     </nav>

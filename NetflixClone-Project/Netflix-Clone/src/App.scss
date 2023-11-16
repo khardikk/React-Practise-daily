@@ -47,6 +47,29 @@ $bg: rgb(16, 16, 16);
       color: rgb(216, 216, 216);
     }
   }
+  @media (max-width: 768px) {
+    > button {
+      display: block; /* Show the button on smaller screens */
+    }
+
+    > div {
+      display: none; /* Hide the navigation links by default on smaller screens */
+    }
+
+    &.menu-open {
+      > div.menu {
+        display: flex; /* Show the navigation links when the menu is open */
+        flex-direction: column;
+        align-items: flex-end;
+        position: absolute;
+        top: 100px;
+        right: 2rem;
+        background-color: $bg;
+        padding: 1rem;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+      }
+    }
+  }
 }
 
 .Netflix-logo{
