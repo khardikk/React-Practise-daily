@@ -1,12 +1,17 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import "./Home.scss"
+import axios from 'axios'
 
+const apiKey="5f14ce766eee6173f7596d1c0b95564f"
+const url="https://api.themoviedb.org/3"
+const imgURl="https://image.tmdb.org/t/p/original"
+const upcoming = "upcoming"
 const Card = ({img}) => (
         <img className='card' src = {img} alt = "cover" /> 
 )
 
 const Row = ({title, arr=[{
-     img: "https://lumiere-a.akamaihd.net/v1/images/image_174b2bb6.jpeg?region=0%2C0%2C1400%2C2100"
+
 }] }) => (
 
     <div className = "row">
@@ -16,8 +21,8 @@ const Row = ({title, arr=[{
         <div>
             {
 
-            arr.map((item) => (
-                <Card img = {item.img} />
+            arr.map((item,index) => (
+                <Card key={index} img = {`${imgURl}/${item.poster_path}`} />
             ))
             }
         </div>
@@ -26,10 +31,24 @@ const Row = ({title, arr=[{
 )
 
 const Home = () => {
+
+    const [upcomingMovies, setUpcomingMovies] = useState([])
+
+    useEffect(() => {
+
+        const fetchUpcoming = async () => {
+            const {data:{results}} = await axios.get(`${url}/movie/${upcoming}?api_key=${apiKey}`)
+            setUpcomingMovies(results)
+            console.log(upcomingMovies)
+        };
+        fetchUpcoming()
+    },[])
+
   return(
     <section className = "home">    
         <div className = "banner"></div>
 
+        <Row title={"Upcoming Movies"} arr={upcomingMovies}/>
         <Row title={"Popular on Netflix"}/>
         <Row title={"Tv Shows"}/>
         <Row title={"Movies"}/>
