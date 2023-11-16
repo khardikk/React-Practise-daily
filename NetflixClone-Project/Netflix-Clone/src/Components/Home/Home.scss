@@ -127,6 +127,7 @@ $bg: rgb(16, 16, 16);
 
 .pagination-buttons {
   display: flex;
+  overflow-x: auto;
   gap: 15px;
   background-color: $bg;
   padding: 1rem;
