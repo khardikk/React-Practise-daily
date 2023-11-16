@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import "./Home.scss"
 import axios from 'axios'
+import { Link } from 'react-router-dom'
 
 const apiKey="5f14ce766eee6173f7596d1c0b95564f"
 const url="https://api.themoviedb.org/3"
@@ -79,7 +80,7 @@ const Home = () => {
                 data:{genres},
             } = await axios.get(`${url}/genre/movie/list?api_key=${apiKey}`)
             setGenres(genres)
-           
+           console.log(genres)
         };
         
         fetchUpcoming()
@@ -99,8 +100,15 @@ const Home = () => {
         <Row title={"Popular"} arr={popularMovies}/>
         <Row title={"Top Rated"} arr={topRatedMovies}/>
 
+        <div className = "genreBox">
+          {genres.map((item)=>(
+            <Link key={item.id} to={`/genre/${item.id}`}>
+                {item.name}
+            </Link>
+          ))}
+        </div>
     </section>
-  )
-}
+  );
+};
 
 export default Home
