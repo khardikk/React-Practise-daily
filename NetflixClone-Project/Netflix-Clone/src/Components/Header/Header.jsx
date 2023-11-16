@@ -24,7 +24,7 @@ const Header = () => {
           <Link to="/mylist">My List</Link>
 
       </div>
-      <button onClick={toggleMenu}>Menu
+      <button onClick={toggleMenu}>
       
       </button>
       <ImSearch className = "search-icon" />
