@@ -60,7 +60,7 @@ const Pagination = ({ totalPages, currentPage, onPageChange }) => {
     const [popularMovies, setPopularMovies] = useState([]);
     const [topRatedMovies, setTopRatedMovies] = useState([]);
     const [nowPlayingMovies, setNowPlayingMovies] = useState([]);
-    const [genres, setGenres] = useState([]);
+    const [genre, setGenre] = useState([]);
     const [upcomingPage, setUpcomingPage] = useState(1);
     const [nowPlayingPage, setNowPlayingPage] = useState(1);
     const [popularPage, setPopularPage] = useState(1);
@@ -78,12 +78,13 @@ const Pagination = ({ totalPages, currentPage, onPageChange }) => {
     };
   
     useEffect(() => {
-      const fetchAllData = async () => {
+        const fetchAllData = async () => {
+        await fetchGenre();
+        console.log('Genre:', genre);
         await fetchUpcoming(upcomingPage);
         await fetchNowPlaying(nowPlayingPage);
         await fetchPopular(popularPage);
         await fetchTopRated(topRatedPage);
-        await fetchGenres();
       };
   
       fetchAllData();
@@ -117,12 +118,16 @@ const Pagination = ({ totalPages, currentPage, onPageChange }) => {
       setTopRatedMovies(results);
     };
   
-    const fetchGenres = async () => {
-      const {
-        data: { genres },
-      } = await axios.get(`${url}/genre/movie/list?api_key=${apiKey}`);
-      setGenres(genres);
+    const fetchGenre = async () => {
+        const {
+            data: { genres },
+        } = await axios.get(`${url}/genre/movie/list?api_key=${apiKey}`);
+        setGenre(genres);
+        console.log(genres);
     };
+    
+    
+      
   
     const handlePageChange = (category, newPage) => {
       switch (category) {
@@ -183,13 +188,19 @@ const Pagination = ({ totalPages, currentPage, onPageChange }) => {
           </React.Fragment>
         ))}
   
-        <div className='genreBox'>
-          {genres.map((item) => (
-            <Link key={item.id} to={`/genre/${item.id}`}>
-              {item.name}
-            </Link>
-          ))}
-        </div>
+  {genre && Array.isArray(genre) && genre.length > 0 && (
+    <div className="genreBox">
+        {genre.map((item) => (
+            item && item.id && (
+                <Link key={item.id} to={`/genre/${item.id}`}>
+                    {item.name}
+                </Link>
+            )
+        ))}
+    </div>
+)}
+
+
       </section>
     );
   };
