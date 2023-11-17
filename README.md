@@ -20,6 +20,10 @@ Here's a brief overview of what you can expect to find in this repository:
 
 If you're new to React or want to follow along with my learning journey, you can start by checking out the [README](./daily-log) for my daily logs. I'll be sharing details about setting up a React project, writing components, managing state, and much more.
 
+## Projects 
+- [Netflix clone with Pagination](https://netflix-clone-react-hady68.vercel.app/)
+- [To-do-List App](https://react-practise-daily.vercel.app/)
+
 ## How to Use This Repository
 
 - **Browse Daily Logs**: Explore my daily logs to see my progress and learn from my experiences.
