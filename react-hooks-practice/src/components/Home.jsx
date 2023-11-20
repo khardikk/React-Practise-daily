@@ -1,4 +1,4 @@
-import React, {useContext} from 'react'
+import React, {useContext, useRef, useEffect} from 'react'
 import {custom} from '../main.jsx'
 
 
@@ -6,8 +6,14 @@ const Row = () => {
 
     const data = useContext(custom);
 
+    const customRef = useRef(null);
+    
+    useEffect(() => {
+    console.log(customRef.current);
+    }, [customRef]);
+
     return (
-        <div>
+        <div ref={customRef}>
           {data}
         </div>
     )
