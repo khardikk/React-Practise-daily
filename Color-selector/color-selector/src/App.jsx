@@ -1,8 +1,10 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import ColorButton from "./components/ColorButton"
 
 function App() {
-  const [color, setColor] = useState("black")
+    // Load color from localStorage on component mount
+  const initialColor = localStorage.getItem("color") || "black";
+  const [color, setColor] = useState(initialColor);
 
   const handleColorChange = (newColor) => {
     setColor(newColor);
@@ -20,6 +22,11 @@ function App() {
     { color: "violet", name: "Violet" },
 
   ];
+  // Save color to localStorage whenever it changes
+  useEffect(() => {
+    console.log("color changed");
+    localStorage.setItem("color", color);
+  }, [color]);
 
   return (
     <div className="w-full h-screen duration-500"
